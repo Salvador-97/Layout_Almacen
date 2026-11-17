@@ -67,6 +67,3 @@ def obtenerInformacionRack(idRack):
     informacionRacks = rackSinNulos.to_dict('records')
     
     return informacionRacks
-    
-print(len(obtenerInformacionRack("A01-01")))
-
