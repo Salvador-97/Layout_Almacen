@@ -1,3 +1,87 @@
+/* Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+}
+li, ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Estilos pagina principal*/
+.pagina-principal {
+    display: flex;
+}
+
+.layout {
+    width: 80%;
+    display: flex;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.titulo-layout {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Estilos informacion general*/
+
+.menu-informacion {
+    width: 20%; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0.5rem 0.5rem 0 0;
+    gap: 0.4rem;
+}
+
+.info-general {
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.lista-general ul{
+    font-size: 0.8rem;
+}
+
+.subtitulo {
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.info-rack {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #000;
+    border-radius: 0.5rem;
+    padding: 0.5rem 0;
+}
+
+/* Estilos racks*/
+.columna-rack {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+}
+
+.racks-columnas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+.bahia {
+    font-size: 0.6rem;
+    border: 1px solid #000;
+    border-radius: 0.1rem;
+    padding: 0.5rem;
+}
 .seleccionado {
     fill: #a7c957;
+}
+
+svg text {
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
 }

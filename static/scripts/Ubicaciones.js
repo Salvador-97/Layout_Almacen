@@ -1,5 +1,6 @@
 const layout = document.querySelector("svg")
 let ubicacionSeleccionada = ""
+ordenarNumeroRacks()
 
 layout.addEventListener("click", event => {
     if (event.target.tagName === "rect") {
@@ -46,5 +47,25 @@ function consultarDatos(idRack) {
     })
     .catch(error => {
         console.error("Hubo un error:", error);
+    })
+}
+
+function ordenarNumeroRacks() {
+    const racks = document.querySelectorAll('.elementoRack')
+    
+    racks.forEach(rack => {
+        const rectangulo = rack.querySelector('.rectangulo')
+        const texto = rack.querySelector('.texto')
+
+        const x = parseFloat(rectangulo.getAttribute('x'))
+        const width = parseFloat(rectangulo.getAttribute('width'))
+        const y = parseFloat(rectangulo.getAttribute('y'))
+        const height = parseFloat(rectangulo.getAttribute('height'))
+
+        const centroX = x + (width / 2)
+        const centroY = y + (height - 18)
+
+        texto.setAttribute('x', centroX)
+        texto.setAttribute('y', centroY)
     })
 }
