@@ -19,6 +19,11 @@ def obtenerInformacionGeneral(inventario, catalogo, bloqueadas) :
         catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"]) &
         catalogo["UbicacionID"].isin(inventario["cellNo"])
     ]
+    
+    totalUbicaciones = len(ubicacionesDisponibles) + len(ubicacionesOcupadas) + len(ubicacionesBloquedasCatalogo)
+    listaGeneral = [totalUbicaciones, len(ubicacionesDisponibles), len(ubicacionesOcupadas), len(ubicacionesBloquedasCatalogo)]
+    
+    return listaGeneral
 
 def agregarEstadoCatalogo(catalogo, inventario, bloqueadas) :
     # Agregar nueva columna

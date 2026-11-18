@@ -2,6 +2,35 @@ const layout = document.querySelector("svg")
 let ubicacionSeleccionada = ""
 ordenarNumeroRacks()
 
+fetch(`/api`, {
+    method: 'GET'
+})
+.then(response => {
+    if(!response.ok){
+        throw new Error("Error al leer WMS")
+    }
+    return response.json()
+})
+.then(informacion => {
+    const totalUbicaciones = informacion[0]
+    const ubicacionesDisponibles = informacion[1]
+    const ubicacionesOcupadas = informacion[2]
+    const ubicacionesBloqueadas = informacion[3]
+
+    const total = document.getElementById('total')
+    const disponibles = document.getElementById('disponibles')
+    const ocupadas = document.getElementById('ocupadas')
+    const bloqueadas = document.getElementById('bloqueadas')
+    
+    total.textContent = totalUbicaciones
+    disponibles.textContent = ubicacionesDisponibles
+    ocupadas.textContent = ubicacionesOcupadas
+    bloqueadas.textContent = ubicacionesBloqueadas
+})
+.catch(error => {
+    console.error("Error al obtener datos: ", error)
+})
+
 layout.addEventListener("click", event => {
     if (event.target.tagName === "rect") {
         if (ubicacionSeleccionada == "") {
@@ -43,7 +72,21 @@ function consultarDatos(idRack) {
         return response.json()
     })
     .then(datos => {
-        console.log(datos)
+        const rackSeleccionado = document.getElementById('rack-seleccionado')
+        rackSeleccionado.textContent = idRack
+        const rackCompleto = document.querySelectorAll('.bahia')
+
+        rackCompleto.forEach(bahia => {
+            const idBahia = bahia.id
+            const bahiaEncontrada = datos.find(rack => rack.Posicion == idBahia)
+            const estado = bahia.querySelector('.estadoUbicacion')
+            const cajas = bahia.querySelector('.cajasUbicacion')
+            const idUbicacion = bahia.querySelector('.idUbicacion')
+
+            estado.textContent = bahiaEncontrada.Estado
+            //cajas.textContent = bahiaEncontrada.Cajas
+            idUbicacion.textContent = bahiaEncontrada.UbicacionID
+        })
     })
     .catch(error => {
         console.error("Hubo un error:", error);
