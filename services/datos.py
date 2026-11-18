@@ -1,39 +1,35 @@
 import pandas as pd
 
-inventario = pd.read_excel('data/BoxInventory_20261118030828.xlsx')
-catalogo = pd.read_excel('data/Ubicaciones.xlsx', sheet_name="Catalogo")
-bloqueadas = pd.read_excel('data/Ubicaciones.xlsx', sheet_name="Bloqueadas")
+def obtenerInformacionGeneral(inventario, catalogo, bloqueadas) :
+    ubicacionesSinBloqueo = catalogo[
+        ~catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"])
+    ]
+    ubicacionesBloquedasCatalogo = catalogo[
+        catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"])
+    ]
+    ubicacionesDisponibles = ubicacionesSinBloqueo[
+        ~ubicacionesSinBloqueo["UbicacionID"].isin(inventario["cellNo"])
+    ]
+    #Ubicaciones ocupadas
+    ubicacionesOcupadas = catalogo[
+        catalogo["UbicacionID"].isin(inventario["cellNo"])
+    ]
+    #Ubicaciones bloquedas con inventario
+    ubicacionesOcupadasBloquedas = catalogo[
+        catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"]) &
+        catalogo["UbicacionID"].isin(inventario["cellNo"])
+    ]
 
-#Ubicaciones disponibles sin bloqueo
-ubicacionesSinBloqueo = catalogo[
-    ~catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"])
-]
-ubicacionesDisponibles = ubicacionesSinBloqueo[
-    ~ubicacionesSinBloqueo["UbicacionID"].isin(inventario["cellNo"])
-]
+def agregarEstadoCatalogo(catalogo, inventario, bloqueadas) :
+    # Agregar nueva columna
+    catalogo["Estado"] = "Vacia"
+    # Agregamos los estados
+    catalogo.loc[catalogo["UbicacionID"].isin(inventario["cellNo"]), "Estado"] = "Ocupada"
+    catalogo.loc[catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"]), "Estado"] = "Bloqueada"
+    
+    return catalogo
 
-ubicacionesBloquedasCatalogo = catalogo[
-    catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"])
-]
-
-#Ubicaciones ocupadas
-ubicacionesOcupadas = catalogo[
-    catalogo["UbicacionID"].isin(inventario["cellNo"])
-]
-
-#Ubicaciones bloquedas con inventario
-ubicacionesOcupadasBloquedas = catalogo[
-    catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"]) &
-    catalogo["UbicacionID"].isin(inventario["cellNo"])
-]
-
-# Agregar nueva columna
-catalogo["Estado"] = "Vacia"
-# Agregamos los estados
-catalogo.loc[catalogo["UbicacionID"].isin(inventario["cellNo"]), "Estado"] = "Ocupada"
-catalogo.loc[catalogo["UbicacionID"].isin(bloqueadas["UbicacionID"]), "Estado"] = "Bloqueada"
-
-def obtenerInformacionRack(idRack):
+def obtenerInformacionRack(idRack, inventario, catalogo):
     detalleRack = catalogo[
     catalogo["RackID"] == idRack
     ]

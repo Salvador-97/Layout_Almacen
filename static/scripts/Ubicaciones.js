@@ -24,9 +24,27 @@ layout.addEventListener("click", event => {
                 cuadro.classList.add("seleccionado")
             }
         }
-        console.log(ubicacionSeleccionada)
+        consultarDatos(ubicacionSeleccionada)
     } else {
         console.log("Elemento no valido")
     }
 
 })
+
+function consultarDatos(idRack) {
+    fetch(`/api/${idRack}`, {
+        method: 'GET'
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Ocurrio un error")   
+        }
+        return response.json()
+    })
+    .then(datos => {
+        console.log(datos)
+    })
+    .catch(error => {
+        console.error("Hubo un error:", error);
+    })
+}
