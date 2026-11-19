@@ -2,6 +2,7 @@ const layout = document.querySelector("svg")
 let ubicacionSeleccionada = ""
 ordenarNumeroRacks()
 
+
 fetch(`/api`, {
     method: 'GET'
 })
@@ -12,6 +13,42 @@ fetch(`/api`, {
     return response.json()
 })
 .then(informacion => {
+    informacionGeneral(informacion)
+})
+.catch(error => {
+    console.error("Error al obtener datos: ", error)
+})
+
+
+const inputArchivo = document.getElementById("archivoInventario")
+
+inputArchivo.addEventListener("change", e => {
+    archivoWMS = inputArchivo.files[0]
+    if (!archivoWMS) return
+
+    const formulario = new FormData()
+    formulario.append("archivoInventario", archivoWMS)
+
+    fetch(`/api/inventario`, {
+        method: 'POST',
+        body: formulario
+    })
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Error al leer WMS")
+        }
+        return response.json()
+    })
+    .then(informacion => {
+        informacionGeneral(informacion.listaDatos)
+        inputArchivo.value = ""
+    })
+    .catch(error => {
+        console.error("Error al obtener datos: ", error)
+    })
+})
+
+function informacionGeneral(informacion) {
     const totalUbicaciones = informacion[0]
     const ubicacionesDisponibles = informacion[1]
     const ubicacionesOcupadas = informacion[2]
@@ -21,15 +58,12 @@ fetch(`/api`, {
     const disponibles = document.getElementById('disponibles')
     const ocupadas = document.getElementById('ocupadas')
     const bloqueadas = document.getElementById('bloqueadas')
-    
+        
     total.textContent = totalUbicaciones
     disponibles.textContent = ubicacionesDisponibles
     ocupadas.textContent = ubicacionesOcupadas
     bloqueadas.textContent = ubicacionesBloqueadas
-})
-.catch(error => {
-    console.error("Error al obtener datos: ", error)
-})
+}
 
 layout.addEventListener("click", event => {
     if (event.target.tagName === "rect") {

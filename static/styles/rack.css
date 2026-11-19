@@ -157,6 +157,11 @@ li, ul {
     color: var(--color-borde-noDisponible);
 }
 
+.contenedor-archivo {
+    border: 3px solid var(--color-bordes);
+    border-radius: 0.5rem;
+}
+
 .seleccionado {
     fill: #a7c957;
 }
