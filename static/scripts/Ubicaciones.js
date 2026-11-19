@@ -87,18 +87,60 @@ function consultarDatos(idRack) {
             if(!bahiaEncontrada){
                 console.log("No se encontro: ", bahia.id)
                 estado.textContent = "No disponible"
+                agregarClaseEstado(bahia, "noDisponible")
                 idUbicacion.textContent = ""
                 return
             }
             
+            agregarClaseEstado(bahia, bahiaEncontrada.Estado)
             estado.textContent = bahiaEncontrada.Estado
-            //cajas.textContent = bahiaEncontrada.Cajas
+            cajas.textContent = "Cajas"
             idUbicacion.textContent = bahiaEncontrada.UbicacionID
         })
     })
     .catch(error => {
         console.error("Hubo un error:", error);
     })
+}
+
+function agregarClaseEstado(bahia, estado) {
+    switch(estado){
+        case "Disponible":
+            bahia.classList.remove("bahia-vacia")
+            bahia.classList.remove("bahia-bloqueada")
+            bahia.classList.remove("bahia-noDisponible")
+            bahia.classList.remove("bahia-ocupada")
+            bahia.classList.add("bahia-disponible")
+            break
+        case "Vacia":
+            bahia.classList.remove("bahia-disponible")
+            bahia.classList.remove("bahia-bloqueada")
+            bahia.classList.remove("bahia-noDisponible")
+            bahia.classList.remove("bahia-ocupada")
+            bahia.classList.add("bahia-vacia")
+            break
+        case "Bloqueada":
+            bahia.classList.remove("bahia-vacia")
+            bahia.classList.remove("bahia-disponible")
+            bahia.classList.remove("bahia-noDisponible")
+            bahia.classList.remove("bahia-ocupada")
+            bahia.classList.add("bahia-bloqueada")
+            break
+        case "Ocupada":
+            bahia.classList.remove("bahia-vacia")
+            bahia.classList.remove("bahia-bloqueada")
+            bahia.classList.remove("bahia-disponible")
+            bahia.classList.remove("bahia-noDisponible")
+            bahia.classList.add("bahia-ocupada")
+            break
+        case "noDisponible":
+            bahia.classList.remove("bahia-vacia")
+            bahia.classList.remove("bahia-bloqueada")
+            bahia.classList.remove("bahia-disponible")
+            bahia.classList.remove("bahia-ocupada")
+            bahia.classList.add("bahia-noDisponible")
+            break
+    }
 }
 
 function ordenarNumeroRacks() {
