@@ -87,6 +87,7 @@ function consultarDatos(idRack) {
             if(!bahiaEncontrada){
                 console.log("No se encontro: ", bahia.id)
                 estado.textContent = "No disponible"
+                idUbicacion.textContent = ""
                 return
             }
             
