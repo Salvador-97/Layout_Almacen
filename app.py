@@ -5,7 +5,7 @@ from services.datos import obtenerInformacionRack, agregarEstadoCatalogo, obtene
 app = Flask(__name__)
 catalogo = pd.read_excel('data/Ubicaciones.xlsx', sheet_name="Catalogo")
 bloqueadas = pd.read_excel('data/Ubicaciones.xlsx', sheet_name="Bloqueadas")
-inventario = pd.read_excel('data/BoxInventory_20261118030828.xlsx')
+inventario = pd.read_excel('data/BoxInventory_20261119085427.xlsx')
 catalogoEstados = agregarEstadoCatalogo(catalogo, inventario, bloqueadas)
 listaGeneral =  obtenerInformacionGeneral(inventario, catalogo, bloqueadas)
 

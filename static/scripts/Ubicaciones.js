@@ -34,6 +34,7 @@ fetch(`/api`, {
 layout.addEventListener("click", event => {
     if (event.target.tagName === "rect") {
         if (ubicacionSeleccionada == "") {
+            console.log(ubicacionSeleccionada)
             ubicacionSeleccionada = event.target.id;
             const cuadro = document.getElementById(ubicacionSeleccionada)
             if (cuadro.classList.contains("seleccionado")) {
@@ -78,11 +79,17 @@ function consultarDatos(idRack) {
 
         rackCompleto.forEach(bahia => {
             const idBahia = bahia.id
-            const bahiaEncontrada = datos.find(rack => rack.Posicion == idBahia)
             const estado = bahia.querySelector('.estadoUbicacion')
             const cajas = bahia.querySelector('.cajasUbicacion')
             const idUbicacion = bahia.querySelector('.idUbicacion')
+            const bahiaEncontrada = datos.find(rack => rack.Posicion == idBahia)
 
+            if(!bahiaEncontrada){
+                console.log("No se encontro: ", bahia.id)
+                estado.textContent = "No disponible"
+                return
+            }
+            
             estado.textContent = bahiaEncontrada.Estado
             //cajas.textContent = bahiaEncontrada.Cajas
             idUbicacion.textContent = bahiaEncontrada.UbicacionID
